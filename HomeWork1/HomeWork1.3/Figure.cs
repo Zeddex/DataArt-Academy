@@ -83,24 +83,53 @@ namespace HomeWork1._3
 
     class Square : Figure
     {
-        public double Length { get; set; }
-        public double Width { get; set; }
+        public double SideLength { get; set; }
 
         public Square() { }
-        public Square(double length, double width)
+        public Square(double sideLength)
         {
-            Length = length;
-            Width = width;
+            SideLength = sideLength;
         }
         public override double GetArea()
         {
-            double area = Length * Width;
+            double area = Math.Pow(SideLength, 2);
             areaSummary += area;
             return area;
         }
         public override double GetPerimeter()
         {
-            double perimeter = (Length + Width) * 2;
+            double perimeter = SideLength * 4;
+            perimeterSummary += perimeter;
+            return perimeter;
+        }
+    }
+
+    class Triangle : Figure
+    {
+        public double Base { get; set; }
+        public double Height { get; set; }
+        public double SideA { get; set; }
+        public double SideB { get; set; }
+        public double SideC { get; set; }
+
+        public Triangle() { }
+        public Triangle(double baselength, double height, double sideA, double sideB, double sideC)
+        {
+            Base = baselength;
+            Height = height;
+            SideA = sideA;
+            SideB = sideB;
+            SideC = sideC;
+        }
+        public override double GetArea()
+        {
+            double area = 0.5 * Base * Height;
+            areaSummary += area;
+            return area;
+        }
+        public override double GetPerimeter()
+        {
+            double perimeter = SideA + SideB + SideC;
             perimeterSummary += perimeter;
             return perimeter;
         }
@@ -108,24 +137,30 @@ namespace HomeWork1._3
 
     class Trapezoid : Figure
     {
-        public double Length { get; set; }
-        public double Width { get; set; }
+        public double Height { get; set; }
+        public double TopBase { get; set; }
+        public double BottomBase { get; set; }
+        public double LeftBase { get; set; }
+        public double RightBase { get; set; }
 
         public Trapezoid() { }
-        public Trapezoid(double length, double width)
+        public Trapezoid(double height, double topBase, double bottomBase, double leftBase, double rightBase)
         {
-            Length = length;
-            Width = width;
+            Height = height;
+            TopBase = topBase;
+            BottomBase = bottomBase;
+            LeftBase = leftBase;
+            RightBase = rightBase;
         }
         public override double GetArea()
         {
-            double area = Length * Width;
+            double area = Height * ((TopBase + BottomBase) / 2);
             areaSummary += area;
             return area;
         }
         public override double GetPerimeter()
         {
-            double perimeter = (Length + Width) * 2;
+            double perimeter = TopBase + BottomBase + LeftBase + RightBase;
             perimeterSummary += perimeter;
             return perimeter;
         }

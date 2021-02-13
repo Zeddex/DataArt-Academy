@@ -16,7 +16,12 @@ namespace HomeWork1._3
             figures.Add(new Circle(10));
             figures.Add(new Rectangle(4, 6));
             figures.Add(new Rectangle(2, 5));
-            figures.Add(new Rectangle(3, 4));
+            figures.Add(new Square(4));
+            figures.Add(new Square(5));
+            figures.Add(new Triangle(4, 6, 4, 5, 8));
+            figures.Add(new Triangle(5, 7, 5, 8, 9));
+            figures.Add(new Trapezoid(7, 8, 13, 9, 9));
+            figures.Add(new Trapezoid(5, 7, 15, 6, 7));
 
             foreach (var figure in figures)
             {
