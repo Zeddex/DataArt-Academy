@@ -11,158 +11,152 @@ namespace HomeWork1._3
     #endregion
     abstract class Figure
     {
-        public const double PI = 3.141;
-
-        protected static double areaSummary = 0;
-        protected static double perimeterSummary = 0;
-
-
         public abstract double GetArea();
         public abstract double GetPerimeter();
-
-        public double GetSummaryArea() => areaSummary;
-        public double GetSummaryPerimeter() => perimeterSummary;
-
-        static public void Results()
-        {
-            Console.WriteLine($"Sum of areas = {areaSummary}");
-            Console.WriteLine($"Sum of perimeters = {perimeterSummary}");
-        }
-
     }
 
     class Circle : Figure
     {
 
-        public double Radius { get; set; }
-        public Circle() { }
+        public double Radius { get; }
         public Circle(double radius)
         {
-            Radius = radius;
+            if (radius > 0)
+            {
+                Radius = radius;
+            }
+            else
+            {
+                throw new ArgumentException("Negative value!");
+            }
         }
 
         public override double GetArea()
         {
-            double area = (PI * Math.Pow(Radius, 2));
-            areaSummary += area;
-            return area;
+            return Math.PI * Math.Pow(Radius, 2);
         }
 
         public override double GetPerimeter()
         {
-            double perimeter = 2 * PI * Radius;
-            perimeterSummary += perimeter;
-            return perimeter;
+            return 2 * Math.PI * Radius;
         }
     }
 
     class Rectangle : Figure
     {
-        public double Length { get; set; }
-        public double Width { get; set; }
+        public double Length { get; }
+        public double Width { get; }
 
-        public Rectangle() { }
         public Rectangle(double length, double width)
         {
-            Length = length;
-            Width = width;
+            if (length > 0 && width > 0)
+            {
+                Length = length;
+                Width = width;
+            }
+            else
+            {
+                throw new ArgumentException("Negative value!");
+            }
         }
         public override double GetArea()
         {
-            double area = Length * Width;
-            areaSummary += area;
-            return area;
+            return Length * Width;
         }
         public override double GetPerimeter()
         {
-            double perimeter = (Length + Width) * 2;
-            perimeterSummary += perimeter;
-            return perimeter;
+            return (Length + Width) * 2;
         }
     }
 
     class Square : Figure
     {
-        public double SideLength { get; set; }
+        public double SideLength { get; }
 
-        public Square() { }
         public Square(double sideLength)
         {
-            SideLength = sideLength;
+            if (sideLength > 0)
+            {
+                SideLength = sideLength;
+            }
+            else
+            {
+                throw new ArgumentException("Negative value!");
+            }
         }
         public override double GetArea()
         {
-            double area = Math.Pow(SideLength, 2);
-            areaSummary += area;
-            return area;
+            return Math.Pow(SideLength, 2);
         }
         public override double GetPerimeter()
         {
-            double perimeter = SideLength * 4;
-            perimeterSummary += perimeter;
-            return perimeter;
+            return SideLength * 4;
         }
     }
 
     class Triangle : Figure
     {
-        public double Base { get; set; }
-        public double Height { get; set; }
-        public double SideA { get; set; }
-        public double SideB { get; set; }
-        public double SideC { get; set; }
+        public double Base { get; }
+        public double Height { get; }
+        public double SideA { get; }
+        public double SideB { get; }
+        public double SideC { get; }
 
-        public Triangle() { }
         public Triangle(double baselength, double height, double sideA, double sideB, double sideC)
         {
-            Base = baselength;
-            Height = height;
-            SideA = sideA;
-            SideB = sideB;
-            SideC = sideC;
+            if (baselength > 0 && height > 0 && sideA > 0 && sideB > 0 && sideC > 0)
+            {
+                Base = baselength;
+                Height = height;
+                SideA = sideA;
+                SideB = sideB;
+                SideC = sideC;
+            }
+            else
+            {
+                throw new ArgumentException("Negative value!");
+            }
         }
         public override double GetArea()
         {
-            double area = 0.5 * Base * Height;
-            areaSummary += area;
-            return area;
+            return 0.5 * Base * Height;
         }
         public override double GetPerimeter()
         {
-            double perimeter = SideA + SideB + SideC;
-            perimeterSummary += perimeter;
-            return perimeter;
+            return SideA + SideB + SideC;
         }
     }
 
     class Trapezoid : Figure
     {
-        public double Height { get; set; }
-        public double TopBase { get; set; }
-        public double BottomBase { get; set; }
-        public double LeftBase { get; set; }
-        public double RightBase { get; set; }
+        public double Height { get; }
+        public double TopBase { get; }
+        public double BottomBase { get; }
+        public double LeftBase { get; }
+        public double RightBase { get; }
 
-        public Trapezoid() { }
         public Trapezoid(double height, double topBase, double bottomBase, double leftBase, double rightBase)
         {
-            Height = height;
-            TopBase = topBase;
-            BottomBase = bottomBase;
-            LeftBase = leftBase;
-            RightBase = rightBase;
+            if (height > 0 && topBase > 0 && bottomBase > 0 && leftBase > 0 && rightBase > 0)
+            {
+                Height = height;
+                TopBase = topBase;
+                BottomBase = bottomBase;
+                LeftBase = leftBase;
+                RightBase = rightBase;
+            }
+            else
+            {
+                throw new ArgumentException("Negative value!");
+            }
         }
         public override double GetArea()
         {
-            double area = Height * ((TopBase + BottomBase) / 2);
-            areaSummary += area;
-            return area;
+            return Height * ((TopBase + BottomBase) / 2);
         }
         public override double GetPerimeter()
         {
-            double perimeter = TopBase + BottomBase + LeftBase + RightBase;
-            perimeterSummary += perimeter;
-            return perimeter;
+            return TopBase + BottomBase + LeftBase + RightBase;
         }
     }
 }

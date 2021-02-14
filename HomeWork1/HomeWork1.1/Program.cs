@@ -16,7 +16,7 @@ namespace HomeWork1._1
     {
         static void Main(string[] args)
         {
-            Figure circle1 = new Circle(10);
+            Figure circle1 = new Circle(-10.0);
             Figure rectangle1 = new Rectangle(5, 3);
 
             circle1.ShowFigure();

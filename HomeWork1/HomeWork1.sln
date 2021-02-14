@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork1.1", "HomeWork1.1.csproj", "{6396424F-6DBF-41E6-B8FF-9DA8C97192D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork1.1", "HomeWork1.1\HomeWork1.1.csproj", "{6396424F-6DBF-41E6-B8FF-9DA8C97192D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork1.2", "..\HomeWork1.2\HomeWork1.2.csproj", "{BFBBCD71-7D7D-4852-84C9-C29810962AC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork1.2", "HomeWork1.2\HomeWork1.2.csproj", "{BFBBCD71-7D7D-4852-84C9-C29810962AC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork1.3", "..\HomeWork1.3\HomeWork1.3.csproj", "{458402E3-FA27-4535-872A-C913441292BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork1.3", "HomeWork1.3\HomeWork1.3.csproj", "{458402E3-FA27-4535-872A-C913441292BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

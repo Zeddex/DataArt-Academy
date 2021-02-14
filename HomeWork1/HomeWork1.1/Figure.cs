@@ -8,8 +8,6 @@ namespace HomeWork1._1
 {
     abstract class Figure
     {
-        public const double PI = 3.141;
-
         public abstract double GetArea();
         public abstract double GetPerimeter();
 
@@ -22,21 +20,27 @@ namespace HomeWork1._1
     class Circle : Figure
     {
 
-        public double Radius { get; set; }
-        public Circle() { }
+        public double Radius { get; }
         public Circle(double radius)
         {
-            Radius = radius;
+            if (radius > 0)
+            {
+                Radius = radius;
+            }
+            else
+            {
+                throw new ArgumentException("Negative value!");
+            }
         }
 
         public override double GetArea()
         {
-            return (PI * Math.Pow(Radius, 2));
+            return (Math.PI * Math.Pow(Radius, 2));
         }
 
         public override double GetPerimeter()
         {
-            return 2 * PI * Radius;
+            return 2 * Math.PI * Radius;
         }
 
         public override void ShowFigure()
@@ -48,14 +52,21 @@ namespace HomeWork1._1
 
     class Rectangle : Figure
     {
-        public double Length { get; set; }
-        public double Width { get; set; }
+        public double Length { get; }
+        public double Width { get; }
 
-        public Rectangle() { }
         public Rectangle(double length, double width)
         {
-            Length = length;
-            Width = width;
+            if (length > 0 && width > 0)
+            {
+                Length = length;
+                Width = width;
+            }
+
+            else
+            {
+                throw new ArgumentException("Negative value!");
+            }
         }
         public override double GetArea()
         {

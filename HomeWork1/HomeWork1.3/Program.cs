@@ -10,6 +10,9 @@ namespace HomeWork1._3
     {
         static void Main(string[] args)
         {
+            double sumArea = 0;
+            double sumPerimeter = 0;
+
             List<Figure> figures = new List<Figure>();
 
             figures.Add(new Circle(5));
@@ -25,11 +28,12 @@ namespace HomeWork1._3
 
             foreach (var figure in figures)
             {
-                figure.GetArea();
-                figure.GetPerimeter();
+                sumArea += figure.GetArea();
+                sumPerimeter += figure.GetPerimeter();
             }
 
-            Figure.Results();
+            Console.WriteLine($"Sum of areas = {sumArea}");
+            Console.WriteLine($"Sum of perimeters = {sumPerimeter}");
 
             Console.ReadKey();
         }
