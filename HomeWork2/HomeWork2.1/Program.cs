@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 using System.Text;
 
 namespace HomeWork2._1
@@ -32,32 +33,59 @@ namespace HomeWork2._1
                 new Person { Name = "Maxim<script>alert('Name!')</script>", Email = "injection@gmail.com"}
             };
 
-            StringBuilder result = new StringBuilder();
+            string result = DataProcessing.GenerateBody(person);
 
-            for (int i = 0; i < person.Count; i++)
-            {
-                StringBuilder sb = new StringBuilder("<a href=\"mailto:[email_address]\">[name]</a> |");
-                sb.Replace("[email_address]", person[i].Email);
-                sb.Replace("[name]", person[i].Name);
-                result.AppendLine(sb.ToString());
-            }
+            Output.SaveFile(DataProcessing.Encode(result));
+        }
+    }
 
-            // remove 2 last characters
-            if (result.Length != 0)
-            {
-                result.Remove(result.Length - 4, 4);
-            }
-
-            // filtration
-            result.Replace("<script>", "&lt;script&gt;");
-            result.Replace("</script>", "&lt;/script&gt;");
-
+    class Output
+    {
+        public static void SaveFile (string data)
+        {
             using (StreamWriter sw = new StreamWriter("index.html"))
             {
                 sw.WriteLine("<body>");
-                sw.WriteLine(result.ToString());
+                sw.WriteLine(data);
                 sw.WriteLine("</body>");
             }
+        }
+    }
+
+    class DataProcessing
+    {
+        /// <summary>
+        /// Generate body of HTML document
+        /// </summary>
+        /// <param name="dataList">User's list</param>
+        /// <returns></returns>
+        public static string GenerateBody(List<Person> dataList)
+        {
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                if (i != dataList.Count - 1)
+                {
+                    result.AppendLine($"<a href=\"mailto:{dataList[i].Email}\">{dataList[i].Name}</a> |");
+                }
+                else
+                {
+                    result.AppendLine($"<a href=\"mailto:{dataList[i].Email}\">{dataList[i].Name}</a>");
+                }
+            }
+
+            // filtration
+            //result.Replace("<script>", "&lt;script&gt;");
+            //result.Replace("</script>", "&lt;/script&gt;");
+
+            return result.ToString();
+        }
+
+        public static string Encode(string data)
+        {
+            string encodedData = HttpUtility.HtmlEncode(data);
+            return encodedData;
         }
     }
 }
