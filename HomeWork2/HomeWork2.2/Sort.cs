@@ -54,7 +54,7 @@ namespace HomeWork2._2
             for (int i = 1; i < datetime.Count; i++)
             {
                 if (datetime[i - 1].Year > datetime[i].Year)
-                    throw new Exception("List is not sorted!");
+                    throw new ArgumentException("List is not sorted!");
             }
         }
     }

@@ -35,7 +35,7 @@ namespace HomeWork2._1
 
             string result = DataProcessing.GenerateBody(person);
 
-            Output.SaveFile(DataProcessing.Encode(result));
+            Output.SaveFile(result);
         }
     }
 
@@ -67,17 +67,13 @@ namespace HomeWork2._1
             {
                 if (i != dataList.Count - 1)
                 {
-                    result.AppendLine($"<a href=\"mailto:{dataList[i].Email}\">{dataList[i].Name}</a> |");
+                    result.AppendLine($"<a href=\"mailto:{DataProcessing.Encode(dataList[i].Email)}\">{DataProcessing.Encode(dataList[i].Name)}</a> |");
                 }
                 else
                 {
-                    result.AppendLine($"<a href=\"mailto:{dataList[i].Email}\">{dataList[i].Name}</a>");
+                    result.AppendLine($"<a href=\"mailto:{DataProcessing.Encode(dataList[i].Email)}\">{DataProcessing.Encode(dataList[i].Name)}</a>");
                 }
             }
-
-            // filtration
-            //result.Replace("<script>", "&lt;script&gt;");
-            //result.Replace("</script>", "&lt;/script&gt;");
 
             return result.ToString();
         }
