@@ -13,16 +13,18 @@ namespace HomeWork3
 
         public DeckOfCards()
         {
-            int cardNum = 0;
+            //int cardNum = 0;
 
-            for (int i = 0; i < ranks.Length; i++)
-            {
-                for (int j = 0; j < suits.Length; j++)
-                {
-                    deck[cardNum] = ranks[i] + suits[j];
-                    cardNum++;
-                }
-            }
+            //for (int i = 0; i < ranks.Length; i++)
+            //{
+            //    for (int j = 0; j < suits.Length; j++)
+            //    {
+            //        deck[cardNum] = ranks[i] + suits[j];
+            //        cardNum++;
+            //    }
+            //}
+
+            
 
             //var deck2 = ranks.Zip(suits, (x, y) => x + y);
         }
@@ -44,15 +46,7 @@ namespace HomeWork3
 
         public static void ShowCards(string card)
         {
-            string[] deck = new string[] { card };
-
-            var selectedCard = deck.Select(d => d.Replace("clubs", "♣"))
-                                   .Select(d => d.Replace("diamonds", "♦"))
-                                   .Select(d => d.Replace("hearts", "♥"))
-                                   .Select(d => d.Replace("spades", "♠"))
-                                   .Aggregate((x, y) => x + ", " + y);
-
-            Console.WriteLine(selectedCard);
+            ShowCards(new string[] { card });
         }
  
     }
