@@ -182,7 +182,6 @@ namespace ReportGenerator
 
         public static void PrintReport(IEnumerable<(string email, double totalCost)> reportLines)
         {
-            // проверка на наличие строки с ошибкой в отчёте и выход без вывода на экран всех заказов
             if (isError)
                 return;
 

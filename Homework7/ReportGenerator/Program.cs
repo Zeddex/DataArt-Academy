@@ -7,7 +7,7 @@ namespace ReportGenerator
     {
         static void Main(string[] args)
         {
-            ReportsGenerator.TodaysOrdersReport(ordersFilePath: "orders-sample2.txt");
+            ReportsGenerator.TodaysOrdersReport(ordersFilePath: "orders-sample.txt");
             Console.ReadLine();
         }
     }
