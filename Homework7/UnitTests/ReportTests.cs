@@ -122,5 +122,26 @@ namespace UnitTests
             // assert
             errorLine.Should().Be(line);
         }
+
+        [Test]
+        public void TestDiscount()
+        {
+            // arrange
+            List<string> data = new List<string>();
+            data.Add("abby@void.com 2021-02-11 10:00 !SALE1102 P01 1");
+            data.Add("bobby@void.com 2021-02-11 15:00 P02b 2");
+            data.Add("charley@void.com 2021-02-11 12:30 !SALE1102");
+            data.Add("P01");
+            data.Add("P42 5");
+            IData fileData = new DataStub(data);
+            ITime time = new TimeStub(new DateTime(2021, 02, 11));
+
+            // act
+            ReportsGenerator.TodaysOrdersReport(fileData, time);
+            bool isError = ReportsGenerator.isError;
+
+            // assert
+            isError.Should().BeFalse();
+        }
     }
 }
