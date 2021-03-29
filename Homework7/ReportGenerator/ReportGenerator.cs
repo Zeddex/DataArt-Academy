@@ -65,8 +65,10 @@ namespace ReportGenerator
             for (int i = 0; i < lines.Count; i++)
             {
                 lineNumber++;
+
                 var words = lines[i].Split(' ');
-                if (3 <= words.Length && words.Length <= 5)
+
+                if (3 <= words.Length && words.Length <= 5 && !words.Any(s => s.Contains('!')))
                 {
                     if (!TryParseOrder(words, out var order))
                     {
@@ -79,9 +81,24 @@ namespace ReportGenerator
                     }
                     currentOrder = order;
                 }
+
+                else if (4 <= words.Length && words.Length <= 6 && words.Any(s => s.Contains('!')))
+                {
+                    if (!TryParseOrder(words, out var order))
+                    {
+                        continue;
+                    }
+
+                    if (currentOrder != null)
+                    {
+                        orders.Add(currentOrder);
+                    }
+                    currentOrder = order;
+                }
+
                 else if (words.Length == 2 || words.Length == 1)
                 {
-                    if (!TryParseOrderItem(words, out var item))
+                    if (!TryParseOrderItem(words, couponCode: string.Empty, out var item))
                     {
                         continue;
                     }
@@ -102,6 +119,8 @@ namespace ReportGenerator
         public static bool TryParseOrder(string[] words, out Order order)
         {
             var email = words[0];
+            string coupon = string.Empty;
+            
             if (!email.Contains('@'))
             {
                 order = null;
@@ -116,10 +135,15 @@ namespace ReportGenerator
                 isError = true;
             }
 
-            var items = Array.Empty<OrderItem>();
-            if (words.Length > 3)
+            if (words.Any(s => s.Contains('!')))
             {
-                if (!TryParseOrderItem(words.Skip(3).ToArray(), out var item))
+                coupon = words[3].Split('!')[1];
+            }
+
+            var items = Array.Empty<OrderItem>();
+            if (words.Length > 3 && !words.Any(s => s.Contains('!')))
+            {
+                if (!TryParseOrderItem(words.Skip(3).ToArray(), coupon, out var item))
                 {
                     order = null;
                     Console.WriteLine($"Ошибка во входных данных на строке {lineNumber}");
@@ -129,13 +153,31 @@ namespace ReportGenerator
                 items = new[] { item };
             }
 
-            order = new Order(email, dateTime, items);
+            else if (words.Length > 4 && words.Any(s => s.Contains('!')))
+            {
+                if (!TryParseOrderItem(words.Skip(4).ToArray(), coupon, out var item))
+                {
+                    order = null;
+                    Console.WriteLine($"Ошибка во входных данных на строке {lineNumber}");
+                    isError = true;
+                }
+
+                items = new[] { item };
+            }
+
+            order = new Order(email, dateTime, coupon, items);
             return true;
         }
 
-        public static bool TryParseOrderItem(string[] words, out OrderItem item)
+        public static bool TryParseOrderItem(string[] words, string couponCode, out OrderItem item)
         {
             var productCode = words[0];
+            string coupon = string.Empty;
+
+            if (couponCode != "")
+            {
+                coupon = couponCode;
+            }
 
             if (!int.TryParse(ElementAtOrDefault(words, at: 1, defaultsTo: "1"), out var quantity))
             {
@@ -148,7 +190,7 @@ namespace ReportGenerator
                 return false;
             }
 
-            item = new OrderItem(productCode, quantity);
+            item = new OrderItem(productCode, quantity, coupon);
             return true;
         }
 
@@ -166,18 +208,48 @@ namespace ReportGenerator
 
         public static IEnumerable<(string email, double totalCost)> CalculateTotalCostByCustomer(IEnumerable<Order> orders)
         {
-            return orders
+            // выставление купонов скидок для заказов, которые были в отдельной строке без указания купона
+            foreach (var order in orders)
+            {
+                if (order.Coupon != "")
+                {
+                    foreach (var item in order.Items)
+                    {
+                        item.CouponCode = order.Coupon;
+                    }
+                }
+            }
+
+            var ordersList = orders
                 .GroupBy(o => o.Email, StringComparer.CurrentCultureIgnoreCase)
                 .OrderBy(g => g.Key, StringComparer.CurrentCultureIgnoreCase)
                 .Select(orderGroup =>
                 {
                     var totalCostInCents = orderGroup
                         .SelectMany(o => o.Items)
-                        .Select(i => i.Quantity * ProductCatalog.FindProductByCode(i.ProductCode).PriceInCents)
+                        .Select(i => i.Quantity * (ProductCatalog.FindProductByCode(i.ProductCode).PriceInCents - 
+                        (ProductCatalog.FindProductByCode(i.ProductCode).PriceInCents /100 * 
+                        (CouponsList.FindCouponByCode(i.CouponCode).Discount))))
                         .Sum();
 
                     return (orderGroup.Key, (double)(totalCostInCents / 100));
                 });
+
+            return ordersList;
+
+
+            //return orders
+            //    .GroupBy(o => o.Email, StringComparer.CurrentCultureIgnoreCase)
+            //    .OrderBy(g => g.Key, StringComparer.CurrentCultureIgnoreCase)
+            //    .Select(orderGroup =>
+            //    {
+            //        var totalCostInCents = orderGroup
+            //            .SelectMany(o => o.Items)
+            //            .Select(i => i.Quantity * ProductCatalog.FindProductByCode(i.ProductCode).PriceInCents)
+            //            .Sum();
+
+            //        return (orderGroup.Key, (double)(totalCostInCents / 100));
+            //    });
         }
 
         public static void PrintReport(IEnumerable<(string email, double totalCost)> reportLines)
