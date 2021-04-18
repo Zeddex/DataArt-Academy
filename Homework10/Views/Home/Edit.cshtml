@@ -1,0 +1,103 @@
+﻿@model Student
+
+<head>
+    <meta charset='utf-8'>
+    <style>
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 10px 10px;
+            background: #f4f7f8;
+            border-radius: 8px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            background: rgba(255, green, blue, 0.1);
+            border: none;
+            font-size: 16px;
+            height: auto;
+            margin: 0;
+            outline: 0;
+            padding: 10px;
+            width: 100%;
+            background-color: #e8eeef;
+            color: #8a97a0;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+            margin-bottom: 10px;
+        }
+
+        input:focus, textarea:focus {
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+            border: 1px solid rgba(81, 203, 238, 1);
+        }
+
+        .field-validation-error {
+            color: #b94a48;
+        }
+
+        .field-validation-valid {
+            display: none;
+        }
+
+        input.input-validation-error {
+            border: 1px solid #b94a48;
+        }
+
+        input[type="checkbox"].input-validation-error {
+            border: 0 none;
+        }
+
+        .validation-summary-errors {
+            color: #b94a48;
+        }
+
+        .validation-summary-valid {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    @using (Html.BeginForm())
+    {
+        <h3>Студент</h3>
+
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+        <label asp-for="LastName">Фамилия:</label>
+        @Html.TextBox("LastName")
+        <span asp-validation-for="LastName"></span>
+        <br />
+
+        <label asp-for="FirstName">Имя:</label>
+        @Html.TextBox("FirstName")
+        <span asp-validation-for="FirstName"></span>
+        <br />
+
+        <label asp-for="MiddleName">Отчество:</label>
+        @Html.TextBox("MiddleName")
+        <span asp-validation-for="MiddleName"></span>
+        <br />
+
+        <label asp-for="GroupId">Группа:</label>
+        @Html.DropDownList("GroupId", ViewBag.Groups as SelectList)
+
+        <hr>
+
+        <input class="btn-primary" type="submit" value="Сохранить" />
+        <input class="btn-primary" type="button" value="Отмена" onclick="location.href='@Url.Action("Index", "Home")'" />
+    }
+</body>
+
+@section scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
